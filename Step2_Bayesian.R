@@ -60,7 +60,8 @@ colnames(chisq.results) <- c("Pvalue_threshold", "Pvalue_chisq.test", "observed_
 for (i in 1:length(Pvalue)) {
     chisq.results[i, 1] <- Pvalue[i]
     a <- table(merged.mouse.eQTL.min$lung_pvalue<Pvalue[i], merged.mouse.eQTL.min$liver_pvalue<Pvalue[i])[,2]
-    b <- chisq.test(table(merged.mouse.eQTL.min$lung_pvalue<Pvalue[i], merged.mouse.eQTL.min$liver_pvalue<Pvalue[i]),correct=T)$expected[, 2]
+    b <- chisq.test(table(merged.mouse.eQTL.min$lung_pvalue<Pvalue[i], merged.mouse.eQTL.min$liver_pvalue<Pvalue[i]),
+                    correct=T)$expected[, 2]
     c <- cbind(a,b)
     chisq.results[i,2] <- chisq.test(c,correct=T)$p.value
     chisq.results[i, 3] <- table(merged.mouse.eQTL.min$lung_pvalue < 
@@ -83,8 +84,9 @@ library(ggplot2)
 ae <- chisq.results.df[, c(1, 3, 4)]
 ae1 <- data.frame(melt(ae, id.vars = "Pvalue_threshold"))
 ae1$Pvalue_threshold <- as.numeric(ae1$Pvalue_threshold)
-actvsexp <- ggplot(ae1, aes(x = -log10(Pvalue_threshold), y = value, color = variable)) + geom_line() + labs(y = "Number of overlapping cis-eQTL", 
-    x = expression("-log"[10] ~ "(P value threshold)"))
+actvsexp <- ggplot(ae1, aes(x = -log10(Pvalue_threshold), y = value, color = variable)) + geom_line() + 
+                            labs(y = "Number of overlapping cis-eQTL", 
+                            x = expression("-log"[10] ~ "(P value threshold)"))
 # actvsexp1<- actvsexp + guides(fill=guide_legend(title=NULL))
 actvsexp1 <- actvsexp + scale_colour_discrete(name = " ", breaks = c("observed_shared", 
     "expected_shared"), labels = c("observed overlap", "expected overlap")) + 
@@ -286,7 +288,8 @@ liver.mouse.eQTL.bayesian <- merge(liver.mouse.eQTL.bayesian, merged.mouse.eQTL.
 write.table(liver.mouse.eQTL.bayesian, file = "liver.mouse.eQTL.bayesian.txt")
 # plotting for Comparison of beta and posterior estimations in
 # weighted Bayesian model
-weighted <- ggplot(liver.mouse.eQTL.bayesian, aes(x = betas.hat, y = betas.tieda)) + geom_point() + xlab(expression(abs(hat(beta)))) + ylab(expression("weighted " ~ 
+weighted <- ggplot(liver.mouse.eQTL.bayesian, aes(x = betas.hat, y = betas.tieda)) + geom_point() + 
+                    xlab(expression(abs(hat(beta)))) + ylab(expression("weighted " ~ 
     tilde(beta))) + theme(text = element_text(size = 40)) + geom_abline(intercept = 0, slope = 1, colour = "red")
 pdf("weighted.pdf")
 print(weighted)
