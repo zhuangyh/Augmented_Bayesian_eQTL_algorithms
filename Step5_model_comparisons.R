@@ -26,7 +26,8 @@ liver.mouse.eQTL.bayesian.tau$metapval <- metapval
 # liver.mouse.eQTL.bayesian.tau$p.below.0 =
 # 2*liver.mouse.eQTL.bayesian.tau$p.below.0 MT Method
 mtresults <- read.table(paste0("MTeQTLs_ASE_3c_", sebsetn, "s.txt"), header = TRUE)
-minmtresults <- sapply(liver.mouse.eQTL.bayesian.tau$ensembl_id, function(x) min(mtresults[mtresults$ensembl_id == as.character(x), "marginalP.liver"]))
+minmtresults <- sapply(liver.mouse.eQTL.bayesian.tau$ensembl_id, function(x) min(mtresults[mtresults$ensembl_id == as.character(x), 
+                                                                                           "marginalP.liver"]))
 newmtresults <- data.frame(liver.mouse.eQTL.bayesian.tau$ensembl_id, minmtresults, liver.mouse.eQTL.bayesian.tau$eqtl)
 colnames(newmtresults) <- c("ensembl_id", "marginalp", "eqtl")
 newresults <- liver.mouse.eQTL.bayesian.tau[, c("ensembl_id", "lung_pvalue", "liver_pvalue", "metapval", "p.below.0", "eqtl")]
@@ -38,7 +39,8 @@ rocobj2 <- lines.roc(newresults$eqtl, newresults$p.below.0, col = "red")
 rocobj3 <- lines.roc(newmtresults$eqtl, newmtresults$marginalp, col = "green")
 rocobj4 <- lines.roc(newresults$eqtl, newresults$metapval, col = "blue")
 rocobj5 <- lines.roc(newresults$eqtl, newresults$lung_pvalue, col = "purple")
-legend("bottomright", legend = c("Conventional liver", "TA-eQTL", "MT", "Meta", "Conventional lung"), col = c("black", "red", "green", "blue", "purple"), lwd = 2, cex = 0.75, bty = "n")
+legend("bottomright", legend = c("Conventional liver", "TA-eQTL", "MT", "Meta", "Conventional lung"), 
+       col = c("black", "red", "green", "blue", "purple"), lwd = 2, cex = 0.75, bty = "n")
 dev.off()
 
 # ROC plotting
@@ -48,7 +50,8 @@ rocobj2 <- lines.roc(newresults$eqtl, newresults$p.below.0, col = "red")
 rocobj3 <- lines.roc(newmtresults$eqtl, newmtresults$marginalp, col = "green")
 rocobj4 <- lines.roc(newresults$eqtl, newresults$metapval, col = "blue")
 rocobj5 <- lines.roc(newresults$eqtl, newresults$lung_pvalue, col = "purple")
-legend("bottomright", legend = c("Conventional liver", "TA-eQTL", "MT", "Meta", "Conventional lung"), col = c("black", "red", "green", "blue", "purple"), lwd = 2, cex = 1.5, bty = "n")
+legend("bottomright", legend = c("Conventional liver", "TA-eQTL", "MT", "Meta", "Conventional lung"), 
+       col = c("black", "red", "green", "blue", "purple"), lwd = 2, cex = 1.5, bty = "n")
 dev.off()
 
 orig_auc1 <- as.numeric(ci(newresults$eqtl, newresults$liver_pvalue))
