@@ -21,10 +21,12 @@ ps.long$betas.tieda.se <- (ps.long$value)^0.5
 # combine sd to the data.frame
 liver.mouse.eQTL.bayesian <- cbind(liver.mouse.eQTL.bayesian, ps.long$betas.tieda.se)
 # head(liver.mouse.eQTL.bayesian) rename betas.tieda.se
-liver.mouse.eQTL.bayesian <- rename(liver.mouse.eQTL.bayesian, c(`ps.long$betas.tieda.se` = "betas.tieda.se", liver.beta_se = "betas.hat.se"))
+liver.mouse.eQTL.bayesian <- rename(liver.mouse.eQTL.bayesian, c(`ps.long$betas.tieda.se` = "betas.tieda.se", 
+                                                                 liver.beta_se = "betas.hat.se"))
 # caculate probability of betas.tieda below 0 based on betas.tieda
 # and standard deviation
-liver.mouse.eQTL.bayesian$p.below.0 <- pnorm(0, liver.mouse.eQTL.bayesian$betas.tieda, liver.mouse.eQTL.bayesian$betas.tieda.se)
+liver.mouse.eQTL.bayesian$p.below.0 <- pnorm(0, liver.mouse.eQTL.bayesian$betas.tieda, 
+                                             liver.mouse.eQTL.bayesian$betas.tieda.se)
 pdf("boxplotpb0.pdf")
 boxplot(liver.mouse.eQTL.bayesian$p.below.0, ylab = "value", xlab = "Probability below 0")
 dev.off()
