@@ -4,7 +4,6 @@
 
 ##############################################################
 
-
 rm(list = ls())
 gc()
 # set directory
@@ -63,10 +62,12 @@ for (z in 1:length(sublib)) {
         head(BXD.geno.SNP.eqtl.for.liver)
         dim(BXD.geno.SNP.eqtl.for.liver)
         set.seed(seedlib[k])
-        sub.BXD.geno.SNP.eqtl.for.liver <- BXD.geno.SNP.eqtl.for.liver[, c(1, sample(2:dim(BXD.geno.SNP.eqtl.for.liver)[2], sebsetn, replace = FALSE))]
+        sub.BXD.geno.SNP.eqtl.for.liver <- BXD.geno.SNP.eqtl.for.liver[, c(1, sample(2:dim(BXD.geno.SNP.eqtl.for.liver)[2], 
+                                                                                     sebsetn, replace = FALSE))]
         head(sub.BXD.geno.SNP.eqtl.for.liver)
         dim(sub.BXD.geno.SNP.eqtl.for.liver)
-        write.table(sub.BXD.geno.SNP.eqtl.for.liver, file = "sub.BXD.geno.SNP.eqtl.for.liver.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+        write.table(sub.BXD.geno.SNP.eqtl.for.liver, file = "sub.BXD.geno.SNP.eqtl.for.liver.txt", sep = "\t", 
+                    row.names = FALSE, quote = FALSE)
         ### MT eqtl analysis
         source("matrixeQTL_subsampling.R")
         
@@ -321,7 +322,8 @@ for (z in 1:length(sublib)) {
         markers1 <- as.character(markers)
         # combine ensemble_id, betas.hat and betas.tieda
         outputVector <- c(markers1, betas.hat, betas.tieda0, regbeta)
-        write.table(matrix(outputVector, rowLength), file = "hm_tau_hmresults0.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+        write.table(matrix(outputVector, rowLength), file = "hm_tau_hmresults0.txt", col.names = FALSE, 
+                    row.names = FALSE, quote = FALSE)
         liver.mouse.eQTL.bayesian <- read.table(file = "hm_tau_hmresults0.txt")
         colnames(liver.mouse.eQTL.bayesian) <- c("ensembl_id", "betas.hat", "betas.tieda", "regbeta")
         head(liver.mouse.eQTL.bayesian)
@@ -334,7 +336,8 @@ for (z in 1:length(sublib)) {
         markers1 <- as.character(markers)
         # combine ensemble_id, betas.hat and betas.tieda
         outputVector <- c(markers1, betas.hat, betas.tieda, regbeta)
-        write.table(matrix(outputVector, rowLength), file = "hm_tau_hmresults.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+        write.table(matrix(outputVector, rowLength), file = "hm_tau_hmresults.txt", col.names = FALSE, 
+                    row.names = FALSE, quote = FALSE)
         liver.mouse.eQTL.bayesian <- read.table(file = "hm_tau_hmresults.txt")
         colnames(liver.mouse.eQTL.bayesian) <- c("ensembl_id", "betas.hat", "betas.tieda", "regbeta")
         # merge dataset with betas.hat and betas.tieda
@@ -364,8 +367,10 @@ for (z in 1:length(sublib)) {
         # combine sd to the data.frame
         liver.mouse.eQTL.bayesian <- cbind(liver.mouse.eQTL.bayesian, ps.long$betas.tieda.se)
         # rename betas.tieda.se
-        liver.mouse.eQTL.bayesian <- rename(liver.mouse.eQTL.bayesian, c(`ps.long$betas.tieda.se` = "betas.tieda.se", liver.beta_se = "betas.hat.se"))
-        liver.mouse.eQTL.bayesian$p.below.0 <- pnorm(0, liver.mouse.eQTL.bayesian$betas.tieda, liver.mouse.eQTL.bayesian$betas.tieda.se)
+        liver.mouse.eQTL.bayesian <- rename(liver.mouse.eQTL.bayesian, c(`ps.long$betas.tieda.se` = "betas.tieda.se", 
+                                                                         liver.beta_se = "betas.hat.se"))
+        liver.mouse.eQTL.bayesian$p.below.0 <- pnorm(0, liver.mouse.eQTL.bayesian$betas.tieda, 
+                                                     liver.mouse.eQTL.bayesian$betas.tieda.se)
         write.table(liver.mouse.eQTL.bayesian, file = "liver.mouse.eQTL.bayesian with beta.txt")
         
         ##############################################################
