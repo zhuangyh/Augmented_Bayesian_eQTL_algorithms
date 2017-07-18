@@ -43,11 +43,16 @@ length(liver.ASE.symbol)
 # Annoate gene symbol with ensemble.ID
 library(biomaRt)
 mouse <- useMart("ensembl", dataset = "mmusculus_gene_ensembl")
-liver.ASE.ensembl <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", values = liver.ASE.symbol, mart = mouse)
-liver.ASE.ensembl1 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", values = liver.ASE.symbol1, mart = mouse)
-liver.ASE.ensembl2 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", values = liver.ASE.symbol2, mart = mouse)
-liver.ASE.ensembl3 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", values = liver.ASE.symbol3, mart = mouse)
-liver.ASE.ensembl4 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", values = liver.ASE.symbol4, mart = mouse)
+liver.ASE.ensembl <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", 
+                           values = liver.ASE.symbol, mart = mouse)
+liver.ASE.ensembl1 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", 
+                            values = liver.ASE.symbol1, mart = mouse)
+liver.ASE.ensembl2 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", 
+                            values = liver.ASE.symbol2, mart = mouse)
+liver.ASE.ensembl3 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", 
+                            values = liver.ASE.symbol3, mart = mouse)
+liver.ASE.ensembl4 <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol"), filters = "mgi_symbol", 
+                            values = liver.ASE.symbol4, mart = mouse)
 dim(liver.ASE.ensembl)
 liver.ASE.ensembl <- unique(liver.ASE.ensembl)
 
@@ -62,22 +67,28 @@ summary(liver.mouse.eQTL.bayesian.tau$eqtl)
 liver.mouse.eQTL.bayesian.tau$neg_log_liver_pvalue <- -log10(liver.mouse.eQTL.bayesian.tau$liver_pvalue)
 by(liver.mouse.eQTL.bayesian.tau[, c(1, 7, 9, 14)], liver.mouse.eQTL.bayesian.tau[, "eqtl"], summary)
 library(ggplot2)
-boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver.mouse.eQTL", xlab = "group", ylab = "liver neg log p")
-boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung.mouse.eQTL", xlab = "group", ylab = "lung neg log p")
+boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver.mouse.eQTL", xlab = "group", 
+        ylab = "liver neg log p")
+boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung.mouse.eQTL", xlab = "group", 
+        ylab = "lung neg log p")
 liver.mouse.eQTL.bayesian.tau$eqtl[liver.mouse.eQTL.bayesian.tau$ensembl_id %in% liver.ASE.ensembl$ensembl_gene_id] <- "ASE"
 liver.mouse.eQTL.bayesian.tau$eqtl[!liver.mouse.eQTL.bayesian.tau$ensembl_id %in% liver.ASE.ensembl$ensembl_gene_id] <- "Non-ASE"
 pdf("boxplot01.pdf")
-boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver.mouse.eQTL", xlab = "group", ylab = "liver neg log p")
+boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver.mouse.eQTL", xlab = "group", 
+        ylab = "liver neg log p")
 dev.off()
 # boxplot(neg_log_lung_pvalue ~
 # eqtl,data=liver.mouse.eQTL.bayesian.tau, main='lung.mouse.eQTL',
 # xlab=group', ylab='lung neg log p', ylim=c(0, 16))
 pdf("boxplot02.pdf")
-boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung.mouse.eQTL", xlab = "group", ylab = "lung neg log p")
+boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung.mouse.eQTL", xlab = "group", 
+        ylab = "lung neg log p")
 dev.off()
 pdf("boxplot.pdf", width = 9, height = 6)
 par(mfrow = c(1, 2))
 par(mar=c(5,5,2,2))
-boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung mouse cis-eQTL", xlab = "group", ylab = "lung neg log p", cex.lab= 1.8, cex.axis=1.5, ylim = c(0, 40), asp = 0.5)
-boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver mouse cis-eQTL", xlab = "group", ylab = "liver neg log p",cex.lab= 1.8, cex.axis=1.5, ylim = c(0, 40), asp = 0.5) 
+boxplot(neg_log_lung_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "lung mouse cis-eQTL", xlab = "group", 
+        ylab = "lung neg log p", cex.lab= 1.8, cex.axis=1.5, ylim = c(0, 40), asp = 0.5)
+boxplot(neg_log_liver_pvalue ~ eqtl, data = liver.mouse.eQTL.bayesian.tau, main = "liver mouse cis-eQTL", xlab = "group", 
+        ylab = "liver neg log p",cex.lab= 1.8, cex.axis=1.5, ylim = c(0, 40), asp = 0.5) 
 dev.off()
